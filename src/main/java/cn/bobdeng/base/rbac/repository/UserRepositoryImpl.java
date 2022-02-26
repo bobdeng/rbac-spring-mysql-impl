@@ -3,7 +3,10 @@ package cn.bobdeng.base.rbac.repository;
 import cn.bobdeng.base.user.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public final class UserRepositoryImpl implements UserRepository {
@@ -29,13 +32,15 @@ public final class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> findById(String id) {
         return userDAO.findById(id)
-                .map(userDO -> {
-                    UserId userId = UserId.of(id);
-                    UserStatus status = UserStatus.of(userDO.getStatus());
-                    UserLevel level = UserLevel.of(userDO.getLevel());
-                    UserName name = new UserName(userDO.getName());
-                    return new User(userId, status, level, name);
-                });
+                .map(this::toEntity);
+    }
+
+    private User toEntity(UserDO userDO) {
+        UserId userId = UserId.of(userDO.getId());
+        UserStatus status = UserStatus.of(userDO.getStatus());
+        UserLevel level = UserLevel.of(userDO.getLevel());
+        UserName name = new UserName(userDO.getName());
+        return new User(userId, status, level, name);
     }
 
     @Override
@@ -46,6 +51,14 @@ public final class UserRepositoryImpl implements UserRepository {
                     userDO.setName(user.name());
                     userDAO.save(userDO);
                 });
+    }
+
+    @Override
+    public List<User> all(Users users) {
+        return userDAO.findByTenantId(users.tenantId())
+                .stream()
+                .map(this::toEntity)
+                .collect(Collectors.toList());
     }
 
 }

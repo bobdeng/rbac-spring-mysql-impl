@@ -50,10 +50,21 @@ public class UserTest extends IntegrationTest {
     }
 
     @Test
-    public void find_user(){
+    public void find_user() {
         User user = new Users().newUser();
         User userSaved = userRepository.findById(user.id()).orElse(null);
-        assertThat(user.id(),is(userSaved.id()));
-        assertThat(user.status(),is(userSaved.status()));
+        assertThat(user.id(), is(userSaved.id()));
+        assertThat(user.status(), is(userSaved.status()));
+    }
+
+    @Test
+    public void list_user() {
+        User user = new Users().newUser(new UserName("张三"));
+        List<User> users = userRepository.all(new Users());
+        assertThat(users.size(), is(1));
+        User firstUser = users.get(0);
+        assertThat(firstUser.statusName(), is("active"));
+        assertThat(firstUser.id(), is(user.id()));
+        assertThat(firstUser.levelName(), is(user.levelName()));
     }
 }
