@@ -39,3 +39,10 @@ CREATE TABLE `t_rbac_user_password`
     `password` varchar(100) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `t_rbac_user_account`
+(
+    `id`      varchar(36) NOT NULL,
+    `account` varchar(20) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;

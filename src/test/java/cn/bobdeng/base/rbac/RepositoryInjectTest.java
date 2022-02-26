@@ -16,5 +16,6 @@ public class RepositoryInjectTest extends IntegrationTest {
         assertThat(Users.passwordEncoder, notNullValue());
         assertThat(Users.userRoleRepository, notNullValue());
         assertThat(Roles.roleRepository, notNullValue());
+        assertThat(Users.accountRepository, notNullValue());
     }
 }
