@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'jacoco'
+}
+
+group 'cn.bobdeng.base'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'cn.bobdeng.base'
+            artifactId = 'rbac-spring'
+            version = '0.1'
+            from components.java
+        }
+    }
+}
+apply from: "$rootDir/gradle/config/script/style.gradle"
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:1.18.20"
+    compileOnly "org.springframework.boot:spring-boot-starter-data-jpa:2.5.4"
+    implementation "com.google.code.gson:gson:2.8.5"
+    implementation 'com.github.bobdeng:rbac:0.1.6'
+    compileOnly 'org.flywaydb:flyway-core:5.2.4'
+    implementation "org.springframework.security:spring-security-core:5.3.2.RELEASE"
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testImplementation "org.springframework.boot:spring-boot-starter-data-jpa:2.5.4"
+    testImplementation "org.springframework.boot:spring-boot-starter-web:2.5.4"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:2.5.4"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.testcontainers:mysql:1.15.2'
+    testImplementation 'org.flywaydb:flyway-core:5.2.4'
+    testImplementation 'org.testcontainers:testcontainers:1.15.2'
+    testImplementation 'mysql:mysql-connector-java:8.0.28'
+    testImplementation 'org.mockito:mockito-core:3.1.0'
+    testImplementation 'com.github.bobdeng:dummydao:1.2'
+    testImplementation 'org.assertj:assertj-core:3.16.1'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+apply from: "$rootDir/gradle/config/script/coverage-all.gradle"
+
