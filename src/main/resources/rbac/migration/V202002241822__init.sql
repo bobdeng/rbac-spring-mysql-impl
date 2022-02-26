@@ -4,6 +4,7 @@ CREATE TABLE `t_rbac_user`
     `tenant_id` varchar(36) DEFAULT NULL,
     `status`    varchar(20) NOT NULL,
     `level`     varchar(10) NOT NULL,
+    `name`      varchar(50),
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 

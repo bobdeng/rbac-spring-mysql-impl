@@ -21,6 +21,7 @@ public final class UserRepositoryImpl implements UserRepository {
                 .tenantId(users.tenantId())
                 .status(user.statusName())
                 .level(user.levelName())
+                .name(user.name())
                 .build());
         return user;
     }
@@ -28,7 +29,13 @@ public final class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> findById(String id) {
         return userDAO.findById(id)
-                .map(userDO -> new User(UserId.of(id), UserStatus.of(userDO.getStatus()), UserLevel.of(userDO.getLevel())));
+                .map(userDO -> {
+                    UserId userId = UserId.of(id);
+                    UserStatus status = UserStatus.of(userDO.getStatus());
+                    UserLevel level = UserLevel.of(userDO.getLevel());
+                    UserName name = new UserName(userDO.getName());
+                    return new User(userId, status, level, name);
+                });
     }
 
     @Override
@@ -36,6 +43,7 @@ public final class UserRepositoryImpl implements UserRepository {
         userDAO.findById(user.id())
                 .ifPresent(userDO -> {
                     userDO.setStatus(user.statusName());
+                    userDO.setName(user.name());
                     userDAO.save(userDO);
                 });
     }

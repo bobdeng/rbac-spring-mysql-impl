@@ -19,4 +19,5 @@ public class UserDO {
     private String tenantId;
     private String status;
     private String level;
+    private String name;
 }

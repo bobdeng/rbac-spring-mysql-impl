@@ -2,10 +2,7 @@ package cn.bobdeng.base.rbac;
 
 import cn.bobdeng.base.rbac.repository.UserDAO;
 import cn.bobdeng.base.rbac.repository.UserDO;
-import cn.bobdeng.base.user.TenantId;
-import cn.bobdeng.base.user.User;
-import cn.bobdeng.base.user.UserRepository;
-import cn.bobdeng.base.user.Users;
+import cn.bobdeng.base.user.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,13 +23,15 @@ public class UserTest extends IntegrationTest {
     @Test
     public void create_user() {
         User user = Users.ofTenant(new TenantId("10000"))
-                .newUser();
+                .newUser(new UserName("张三"));
         assertThat(user, notNullValue());
         List<UserDO> userDOS = getUserDOS();
         assertThat(userDOS.size(), is(1));
         UserDO actual = userDOS.get(0);
         assertThat(actual.getStatus(), is("active"));
         assertThat(actual.getTenantId(), is("10000"));
+        assertThat(actual.getName(), is("张三"));
+
     }
 
     private List<UserDO> getUserDOS() {
