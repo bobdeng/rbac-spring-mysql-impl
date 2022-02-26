@@ -3,6 +3,7 @@ package cn.bobdeng.base.rbac.permission;
 import cn.bobdeng.base.rbac.IntegrationTest;
 import cn.bobdeng.base.role.*;
 import cn.bobdeng.base.user.User;
+import cn.bobdeng.base.user.UserId;
 import cn.bobdeng.base.user.UserRoles;
 import cn.bobdeng.base.user.Users;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,8 @@ public class PermissionTest extends IntegrationTest {
         Function userCreateFunction = new Function("user.create");
         Role role = new Roles().newRole(new RoleName("测试"), new Functions(Arrays.asList(userCreateFunction)));
         user.setRoles(new UserRoles(Arrays.asList(RoleId.of(role.id()))));
-        permissionSessionGetter.setUser(user.id());
+
+        permissionSessionGetter.setSessionUser(new SessionUser(user.getId(),null));
 
         assertDoesNotThrow(() -> permissionTestBean.userCreate());
 
@@ -37,7 +39,7 @@ public class PermissionTest extends IntegrationTest {
         Function userCreateFunction = new Function("user.delete");
         Role role = new Roles().newRole(new RoleName("测试"), new Functions(Arrays.asList(userCreateFunction)));
         user.setRoles(new UserRoles(Arrays.asList(RoleId.of(role.id()))));
-        permissionSessionGetter.setUser(user.id());
+        permissionSessionGetter.setSessionUser(new SessionUser(user.getId(),null));
 
         assertThrows(PermissionDeniedException.class, () -> permissionTestBean.userCreate());
 
@@ -45,7 +47,7 @@ public class PermissionTest extends IntegrationTest {
 
     @Test
     public void should_throw_when_no_user() {
-        permissionSessionGetter.setUser(null);
+        permissionSessionGetter.setSessionUser(null);
 
         assertThrows(PermissionDeniedException.class, () -> permissionTestBean.userCreate());
 
@@ -53,7 +55,7 @@ public class PermissionTest extends IntegrationTest {
 
     @Test
     public void should_throw_when_user_not_found() {
-        permissionSessionGetter.setUser("123");
+        permissionSessionGetter.setSessionUser(new SessionUser(UserId.of("123"),null));
         assertThrows(PermissionDeniedException.class, () -> permissionTestBean.userCreate());
     }
 
@@ -63,7 +65,7 @@ public class PermissionTest extends IntegrationTest {
         Function userCreateFunction = new Function("user.create");
         Role role = new Roles().newRole(new RoleName("测试"), new Functions(Arrays.asList(userCreateFunction)));
         user.setRoles(new UserRoles(Arrays.asList(RoleId.of(role.id()))));
-        permissionSessionGetter.setUser(user.id());
+        permissionSessionGetter.setSessionUser(new SessionUser(user.getId(),null));
 
         assertThrows(PermissionDeniedException.class, () -> permissionTestBean.adminCreate());
 
@@ -75,7 +77,7 @@ public class PermissionTest extends IntegrationTest {
         Function userCreateFunction = new Function("user.create");
         Role role = new Roles().newRole(new RoleName("测试"), new Functions(Arrays.asList(userCreateFunction)));
         user.setRoles(new UserRoles(Arrays.asList(RoleId.of(role.id()))));
-        permissionSessionGetter.setUser(user.id());
+        permissionSessionGetter.setSessionUser(new SessionUser(user.getId(),null));
 
         assertDoesNotThrow(() -> permissionTestBean.adminCreate());
 

@@ -1,6 +1,5 @@
-package cn.bobdeng.base.rbac;
+package cn.bobdeng.base.rbac.permission;
 
-import cn.bobdeng.base.rbac.permission.PermissionDeniedException;
 import cn.bobdeng.base.role.Function;
 import cn.bobdeng.base.user.User;
 import cn.bobdeng.base.user.Users;
@@ -40,10 +39,10 @@ public class PermissionChecker {
     }
 
     private User getCurrentUser() {
-        String userId = permissionSessionGetter.sessionUser();
-        if (userId == null) {
+        SessionUser sessionUser = permissionSessionGetter.sessionUser().orElse(null);
+        if (sessionUser == null) {
             throw new PermissionDeniedException();
         }
-        return Users.userRepository.findById(userId).orElseThrow(PermissionDeniedException::new);
+        return Users.userRepository.findById(sessionUser.userId()).orElseThrow(PermissionDeniedException::new);
     }
 }

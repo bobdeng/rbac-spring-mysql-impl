@@ -1,6 +1,5 @@
 package cn.bobdeng.base.rbac.permission;
 
-import cn.bobdeng.base.rbac.Permission;
 import org.springframework.stereotype.Service;
 
 @Service

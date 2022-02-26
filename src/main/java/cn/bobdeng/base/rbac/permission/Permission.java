@@ -1,4 +1,4 @@
-package cn.bobdeng.base.rbac;
+package cn.bobdeng.base.rbac.permission;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
