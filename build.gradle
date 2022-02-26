@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'maven-publish'
     id 'jacoco'
 }
@@ -28,7 +28,7 @@ apply from: "$rootDir/gradle/config/script/style.gradle"
 dependencies {
     compileOnly "org.projectlombok:lombok:1.18.20"
     implementation "com.google.code.gson:gson:2.8.5"
-    implementation 'com.github.bobdeng:rbac:0.2.0'
+    api 'com.github.bobdeng:rbac:0.2.0'
     compileOnly 'org.flywaydb:flyway-core:5.2.4'
     compileOnly "org.springframework.boot:spring-boot-starter-data-jpa:2.5.4"
     implementation "org.springframework.security:spring-security-core:5.3.2.RELEASE"
