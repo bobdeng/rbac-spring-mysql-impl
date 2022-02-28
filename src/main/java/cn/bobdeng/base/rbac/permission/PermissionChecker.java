@@ -21,10 +21,10 @@ public class PermissionChecker {
     @Before("@annotation(permission)")
     public void before(Permission permission) {
         User user = getCurrentUser();
+        if (user.isAdmin()) {
+            return;
+        }
         if (permission.admin()) {
-            if (user.isAdmin()) {
-                return;
-            }
             throw new PermissionDeniedException();
         }
         if (!user.hasAnyPermission(getFunctions(permission))) {
