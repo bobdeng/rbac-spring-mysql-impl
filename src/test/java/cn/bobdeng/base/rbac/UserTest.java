@@ -52,7 +52,7 @@ public class UserTest extends IntegrationTest {
     @Test
     public void find_user() {
         User user = new Users().newUser();
-        User userSaved = userRepository.findById(user.id()).orElse(null);
+        User userSaved = userRepository.findById(null,user.getId()).orElse(null);
         assertThat(user.id(), is(userSaved.id()));
         assertThat(user.status(), is(userSaved.status()));
     }

@@ -13,8 +13,4 @@ public class SessionUser {
         this.userId = userId;
         this.tenantId = tenantId;
     }
-
-    public String userId() {
-        return userId.getId();
-    }
 }

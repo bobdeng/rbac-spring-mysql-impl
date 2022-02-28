@@ -29,10 +29,12 @@ public final class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(String id) {
-        return userDAO.findById(id)
+    public Optional<User> findById(TenantId tenantId, UserId userId) {
+        String tenant = Optional.ofNullable(tenantId).map(TenantId::getId).orElse(null);
+        return userDAO.findByTenantIdAndId(tenant, userId.getId())
                 .map(this::toEntity);
     }
+
 
     private User toEntity(UserDO userDO) {
         UserId userId = UserId.of(userDO.getId());
